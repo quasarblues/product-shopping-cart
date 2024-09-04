@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css">
+  <title>Product Shopping Cart</title>
+</head>
+
+<body>
+  <div class="project-container">
+    <div class="menu-container">
+      <h1>Desserts</h1>
+      <!-- Products are dynamically generated with app.js -->
+
+      <div class="product-card">
+        <div class="product-image-container">
+          <img class="mobile-img" src="assets/images/image-waffle-mobile.jpg" alt="waffle picture">
+          <button class="add-to-cart">
+            <img src="assets/images/icon-add-to-cart.svg" alt="add to cart">
+            Add to Cart
+          </button>
+
+          <div class="adjust-quantity">
+            <button class="decrement">
+              <img src="assets/images/icon-decrement-quantity.svg" alt="decrement icon">
+            </button>
+            <span class="item-quantity">0</span>
+            <button class="increment">
+              <img src="assets/images/icon-increment-quantity.svg" alt="increment quantity">
+            </button>
+          </div>
+        </div>
+
+        <div class="product-info">
+          <p class="category">Testing</p>
+          <h2 class="product-name">Hard coded waffles</h2>
+          <p class="price">$999.99</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="shopping-cart-container">
+      <p class="your-cart">Your Cart <span>(0)</span></p>
+      <div class="empty-cart-wrapper">
+        <img src="assets/images/illustration-empty-cart.svg" alt="cake image">
+        <p class="">Your added items will appear here</p>
+      </div>
+
+      <div class="incart-wrapper">
+        <div class="selected-item">
+          <p class="selected-item-name">Waffle with Berries</p>
+          <span class="selected-item-quantity">2x</span>
+          <span class="selected-item-price"><span>@</span> $6.50</span>
+          <span class="selected-item-total">$13.00</span>
+          <button class="remove-items">
+            <img src="assets/images/icon-remove-item.svg" alt="remove">
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

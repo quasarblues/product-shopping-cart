@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap');
+
+/* Minimal CSS Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Declaring Variables */
+:root {
+    --red: hsl(14, 86%, 42%);
+    --green: hsl(159, 69%, 38%);
+    --rose-50: hsl(20, 50%, 98%);
+    --rose-100: hsl(13, 31%, 94%);
+    --rose-300: hsl(14, 25%, 72%);
+    --rose-400: hsl(7, 20%, 60%);
+    --rose-500: hsl(12, 20%, 44%);
+    --rose-900: hsl(14, 65%, 9%);
+
+    --font-family: "Read hat Text", sans-serif;
+    --fw-400: 400;
+    --fw-600: 600;
+    --fw-700: 700;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--rose-50);
+}
+
+.project-container {
+    margin: 1.5rem;
+}
+
+.menu-container {
+    display: grid;
+    gap: 1rem;
+}
+
+.product-card {
+    border: 1px solid red;
+}
+
+.product-image-container {
+    position: relative;
+}
+
+.product-card .mobile-img {
+    border-radius: 10px;
+}
+
+button.add-to-cart {
+    width: 175px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem;
+    white-space: nowrap;
+    border-radius: 50px;
+    background-color: #fff;
+    border: 1.5px solid var(--rose-400);
+    font-size: 1rem;
+    font-weight: var(--fw-600);
+    color: var(--rose-900);
+}
+
+.adjust-quantity {
+    width: 175px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--red);
+    color: #fff;
+    font-weight: var(--fw-600);
+    padding: 1rem 1rem;
+    border-radius: 50px;
+}
+
+.adjust-quantity button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: transparent;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #fff;
+}
+
+button.add-to-cart:hover,
+.adjust-quantity button:hover {
+    cursor: pointer;
+}
+
+.product-info {
+    padding-top: 3rem;
+    display: grid;
+    gap: 0.5rem;
+}
+
+.product-info .category {
+    color: var(--rose-400);
+}
+
+.product-info .product-name {
+    font-size: 1.2rem;
+    color: var(--rose-900);
+}
+
+.product-info .price {
+    font-size: 1.1rem;
+    font-weight: var(--fw-600);
+    color: var(--red);
+}
+
+/* Shopping Cart Styles */
+
+.shopping-cart-container {
+    margin-top: 3rem;
+    background-color: #fff;
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.shopping-cart-container>p {
+    font-size: 1.5rem;
+    font-family: var(--font-family);
+    font-weight: var(--fw-700);
+    color: var(--red);
+
+}
+
+.empty-cart-wrapper {
+    display: none;
+    margin-top: 4rem;
+}
+
+.empty-cart-wrapper>p {
+    color: var(--rose-500);
+    font-weight: var(--fw-400);
+    text-align: center;
+    font-size: 1rem;
+}
+
+.shopping-cart-container img {
+    margin: 0 auto;
+    padding-top: 1rem;
+}
+
+.incart-wrapper {
+    margin-top: 1rem;
+}
+
+.selected-item {
+    border: 1px solid red;
+}
+
+.selected-item-name {
+    color: var(--rose-900);
+    font-weight: var(--fw-700);
+}
+
+.selected-item-quantity {
+    color: var(--red);
+    font-weight: var(--fw-700);
+    margin-right: 0.5rem;
+}
+
+.selected-item-price {
+    color: var(--rose-400);
+    font-weight: var(--fw-600);
+    margin-right: 0.25rem;
+}
+
+.selected-item-price span {
+    font-size: 0.80rem;
+}
+
+.selected-item-total {
+    color: var(--rose-500);
+    font-weight: var(--fw-600);
+}
