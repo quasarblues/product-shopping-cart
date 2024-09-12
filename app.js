@@ -1,5 +1,4 @@
-const menuContainerEl = document.querySelector('.menu-container');
-
+const gridWrapperEl = document.querySelector('.grid-wrapper');
 const addToCartBtn = document.querySelector('.add-to-cart');
 
 const loadProducts = async () => {
@@ -33,7 +32,7 @@ const createProductCards = (data) => {
         </div>
       </div>
         `
-        menuContainerEl.append(productCard);
+        gridWrapperEl.append(productCard);
 
     } catch (err) {
         console.log(err);

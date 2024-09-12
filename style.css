@@ -36,17 +36,20 @@ body {
     background-color: var(--rose-50);
 }
 
+/* Product Section Styles */
 .project-container {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
 }
 
-.menu-container {
+.grid-wrapper {
     display: grid;
-    gap: 1rem;
-}
-
-.product-card {
-    border: 1px solid red;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 1rem;
 }
 
 .product-image-container {
@@ -131,13 +134,14 @@ button.add-to-cart:hover,
 }
 
 /* Shopping Cart Styles */
-
-.shopping-cart-container {
-    margin-top: 3rem;
+div.shopping-cart-container {
+    /* margin-top: 3rem; */
     background-color: #fff;
     width: 100%;
+    max-width: 400px;
     padding: 1.5rem;
     border-radius: 10px;
+    height: min-content;
 }
 
 .shopping-cart-container>p {
@@ -145,12 +149,15 @@ button.add-to-cart:hover,
     font-family: var(--font-family);
     font-weight: var(--fw-700);
     color: var(--red);
-
 }
 
 .empty-cart-wrapper {
-    display: none;
+    /* display: none; */
     margin-top: 4rem;
+}
+
+.incart-wrapper {
+    display: none;
 }
 
 .empty-cart-wrapper>p {
@@ -159,6 +166,8 @@ button.add-to-cart:hover,
     text-align: center;
     font-size: 1rem;
 }
+
+
 
 .shopping-cart-container img {
     margin: 0 auto;
@@ -275,9 +284,12 @@ button.confirm-order:hover {
     cursor: pointer;
 }
 
+/* Order confrimed card styles */
 .order-confirmed-container {
+    display: none;
+    /* change to display grid with js */
     width: 100%;
-    display: grid;
+    max-width: 400px;
     gap: 1rem;
     padding: 1rem;
     margin-top: 1rem;
@@ -355,4 +367,21 @@ button.new-order {
     color: #fff;
     border: none;
     border-radius: 50px;
+}
+
+/* Media query for tablets */
+@media screen and (min-width: 600px) {
+    .menu-container {
+        width: 60%;
+    }
+}
+
+/* Media query for large screens */
+@media screen and (min-width: 1000px) {
+    .project-container {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-evenly;
+        margin-top: 2rem;
+    }
 }

@@ -13,35 +13,37 @@
   <div class="project-container">
     <div class="menu-container">
       <h1>Desserts</h1>
-      <!-- Products are dynamically generated with app.js -->
+      <div class="grid-wrapper">
 
-      <div class="product-card">
-        <div class="product-image-container">
-          <img class="mobile-img" src="assets/images/image-waffle-mobile.jpg" alt="waffle picture">
-          <button class="add-to-cart">
-            <img src="assets/images/icon-add-to-cart.svg" alt="add to cart">
-            Add to Cart
-          </button>
+        <!-- Products are dynamically generated with app.js
+        <div class="product-card">
+          <div class="product-image-container">
+            <img class="mobile-img" src="assets/images/image-waffle-mobile.jpg" alt="waffle picture">
+            <button class="add-to-cart">
+              <img src="assets/images/icon-add-to-cart.svg" alt="add to cart">
+              Add to Cart
+            </button>
 
-          <div class="adjust-quantity">
-            <button class="decrement">
-              <img src="assets/images/icon-decrement-quantity.svg" alt="decrement quantity">
-            </button>
-            <span class="item-quantity">0</span>
-            <button class="increment">
-              <img src="assets/images/icon-increment-quantity.svg" alt="increment quantity">
-            </button>
+            <div class="adjust-quantity">
+              <button class="decrement">
+                <img src="assets/images/icon-decrement-quantity.svg" alt="decrement quantity">
+              </button>
+              <span class="item-quantity">0</span>
+              <button class="increment">
+                <img src="assets/images/icon-increment-quantity.svg" alt="increment quantity">
+              </button>
+            </div>
           </div>
-        </div>
+          <div class="product-info">
+            <p class="category">Testing</p>
+            <h2 class="product-name">Hard coded waffles</h2>
+            <p class="price">$999.99</p>
+          </div>
+        </div> -->
 
-        <div class="product-info">
-          <p class="category">Testing</p>
-          <h2 class="product-name">Hard coded waffles</h2>
-          <p class="price">$999.99</p>
-        </div>
       </div>
     </div>
-
+    <!-- Empty shopping cart -->
     <div class="shopping-cart-container">
       <p class="your-cart">Your Cart <span>(0)</span></p>
       <div class="empty-cart-wrapper">
@@ -49,6 +51,7 @@
         <p class="">Your added items will appear here</p>
       </div>
 
+      <!-- Items in shopoing cart -->
       <div class="incart-wrapper">
         <div class="selected-item">
           <p class="selected-item-name">Waffle with Berries</p>
@@ -79,22 +82,24 @@
             <img src="assets/images/icon-remove-item.svg" alt="remove">
           </button>
         </div>
+
+        <div class="order-total-container">
+          <div class="order-total">
+            <p>Order Total</p>
+            <p>$78.00</p>
+          </div>
+          <div class="carbon-neutral">
+            <img src="assets/images/icon-carbon-neutral.svg" alt="tree icon">
+            This is a&nbsp;<b>carbon-neutral</b>&nbsp;delivery
+          </div>
+          <button class="confirm-order">Confirm Order</button>
+        </div>
       </div>
 
-      <div class="order-total-container">
-        <div class="order-total">
-          <p>Order Total</p>
-          <p>$78.00</p>
-        </div>
-        <div class="carbon-neutral">
-          <img src="assets/images/icon-carbon-neutral.svg" alt="tree icon">
-          This is a&nbsp;<b>carbon-neutral</b>&nbsp;delivery
-        </div>
-        <button class="confirm-order">Confirm Order</button>
-      </div>
+
     </div>
   </div>
-
+  <!-- Order Confirmed -->
   <div class="order-confirmed-container">
     <img src="assets/images/icon-order-confirmed.svg" alt="">
     <p class="confirmed-msg">Order Confirmed</p>
