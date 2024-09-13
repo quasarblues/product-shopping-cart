@@ -18,7 +18,7 @@
         <!-- Products are dynamically generated with app.js
         <div class="product-card">
           <div class="product-image-container">
-            <img class="mobile-img" src="assets/images/image-waffle-mobile.jpg" alt="waffle picture">
+            <img src="assets/images/image-waffle-mobile.jpg" alt="waffle picture">
             <button class="add-to-cart">
               <img src="assets/images/icon-add-to-cart.svg" alt="add to cart">
               Add to Cart
@@ -95,38 +95,69 @@
           <button class="confirm-order">Confirm Order</button>
         </div>
       </div>
-
-
     </div>
+
+
   </div>
   <!-- Order Confirmed -->
-  <div class="order-confirmed-container">
-    <img src="assets/images/icon-order-confirmed.svg" alt="">
-    <p class="confirmed-msg">Order Confirmed</p>
-    <p class="enjoy-msg">We hope your enjoy your food!</p>
+  <div class="confirmed-overlay">
+    <div class="order-confirmed-container">
+      <img src="assets/images/icon-order-confirmed.svg" alt="">
+      <p class="confirmed-msg">Order Confirmed</p>
+      <p class="enjoy-msg">We hope your enjoy your food!</p>
 
-    <div class="confirmed-cart-wrapper">
-      <div class="confirmed-item">
-        <img src="assets/images/image-waffle-thumbnail.jpg" alt="">
-        <div class="confirmed-name-price-wrapper">
-          <p class="confirmed-item-name">Waffle with Berries</p>
-          <p>
-            <span class="confirmed-item-quantity">2x</span>
-            <span class="confirmed-item-price"><span>@</span> $6.50</span>
-          </p>
+      <div class="confirmed-cart-wrapper">
+        <div class="confirmed-item">
+          <img src="assets/images/image-waffle-thumbnail.jpg" alt="">
+          <div class="confirmed-name-price-wrapper">
+            <p class="confirmed-item-name">Waffle with Berries</p>
+            <p>
+              <span class="confirmed-item-quantity">2x</span>
+              <span class="confirmed-item-price"><span>@</span> $6.50</span>
+            </p>
+          </div>
+          <div class="confirmed-total-price">
+            <p>$78.00</p>
+          </div>
         </div>
-        <div class="confirmed-total-price">
-          <p>$78.00</p>
+
+        <div class="confirmed-item">
+          <img src="assets/images/image-waffle-thumbnail.jpg" alt="">
+          <div class="confirmed-name-price-wrapper">
+            <p class="confirmed-item-name">Waffle with Berries</p>
+            <p>
+              <span class="confirmed-item-quantity">2x</span>
+              <span class="confirmed-item-price"><span>@</span> $6.50</span>
+            </p>
+          </div>
+          <div class="confirmed-total-price">
+            <p>$78.00</p>
+          </div>
+        </div>
+
+        <div class="confirmed-item">
+          <img src="assets/images/image-waffle-thumbnail.jpg" alt="">
+          <div class="confirmed-name-price-wrapper">
+            <p class="confirmed-item-name">Waffle with Berries</p>
+            <p>
+              <span class="confirmed-item-quantity">2x</span>
+              <span class="confirmed-item-price"><span>@</span> $6.50</span>
+            </p>
+          </div>
+          <div class="confirmed-total-price">
+            <p>$78.00</p>
+          </div>
+        </div>
+
+        <div class="order-total-container">
+          <div class="order-total">
+            <p>Order Total</p>
+            <p>$78.00</p>
+          </div>
         </div>
       </div>
-      <div class="order-total-container">
-        <div class="order-total">
-          <p>Order Total</p>
-          <p>$78.00</p>
-        </div>
-      </div>
+      <button class="new-order">Start New Order</button>
     </div>
-    <button class="new-order">Start New Order</button>
   </div>
 
   <script src="app.js"></script>

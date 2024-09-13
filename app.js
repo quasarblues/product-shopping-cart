@@ -1,5 +1,6 @@
 const gridWrapperEl = document.querySelector('.grid-wrapper');
 const addToCartBtn = document.querySelector('.add-to-cart');
+const productImg = document.querySelector('.product-card img');
 
 const loadProducts = async () => {
     try {
@@ -14,13 +15,20 @@ const loadProducts = async () => {
 const createProductCards = (data) => {
     try {
         const { image, name, category, price } = data;
-
+        let imgSrc;
+        if (window.innerWidth < 600) {
+            imgSrc = image.mobile;
+        } else if (window.innerWidth >= 1000) {
+            imgSrc = image.desktop;
+        } else {
+            imgSrc = image.tablet;
+        }
         const productCard = document.createElement('div');
-        productCard.classList.add('product-card')
+        productCard.classList.add('product-card');
         productCard.innerHTML = `
         <div class="product-card">
         <div class="product-image-container">
-          <img class="mobile-img" src="${image.mobile}" alt="product image">
+          <img src="${imgSrc}" alt="product image">
           <button class="add-to-cart">
             <img src="assets/images/icon-add-to-cart.svg" alt="add to cart">
             Add to Cart</button>
@@ -44,9 +52,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     products.forEach(product => {
         createProductCards(product);
     });
+});
+
+window.addEventListener('resize', () => {
+    let imgSrc;
+    if (window.innerWidth < 600) {
+        imgSrc = image.mobile;
+    } else if (window.innerWidth >= 1000) {
+        imgSrc = image.desktop;
+    } else {
+        imgSrc = image.tablet;
+    }
 })
 
-addToCartBtn.addEventListener('click', () => {
-    addToCartBtn.style.backgroundColor = 'red';
-    addToCartBtn.style.color = '#fff';
-})
+// addToCartBtn.addEventListener('click', () => {
+//     addToCartBtn.style.backgroundColor = 'red';
+//     addToCartBtn.style.color = '#fff';
+// })

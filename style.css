@@ -56,7 +56,7 @@ body {
     position: relative;
 }
 
-.product-card .mobile-img {
+.product-card img {
     border-radius: 10px;
 }
 
@@ -152,12 +152,12 @@ div.shopping-cart-container {
 }
 
 .empty-cart-wrapper {
-    /* display: none; */
+    display: none;
     margin-top: 4rem;
 }
 
 .incart-wrapper {
-    display: none;
+    /* display: none; */
 }
 
 .empty-cart-wrapper>p {
@@ -236,7 +236,7 @@ button.remove-items:hover {
     flex-direction: column;
     justify-content: center;
     gap: 1.5rem;
-    padding-top: 1.5rem;
+    padding: 1.5rem 0;
 }
 
 .order-total {
@@ -285,14 +285,29 @@ button.confirm-order:hover {
 }
 
 /* Order confrimed card styles */
-.order-confirmed-container {
+.confirmed-overlay {
     display: none;
-    /* change to display grid with js */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.show {
+    display: flex;
+}
+
+.order-confirmed-container {
+    display: grid;
+    position: fixed;
     width: 100%;
     max-width: 400px;
     gap: 1rem;
     padding: 1rem;
-    margin-top: 1rem;
     background-color: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -315,6 +330,7 @@ button.confirm-order:hover {
 
 .confirmed-item {
     display: flex;
+    justify-content: flex-start;
     padding: 1rem 0;
     border-bottom: 1px solid var(--rose-100);
 }
@@ -328,7 +344,6 @@ button.confirm-order:hover {
 
 .confirmed-name-price-wrapper {
     display: flex;
-    width: 250px;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -339,6 +354,7 @@ button.confirm-order:hover {
 }
 
 .confirmed-total-price {
+    margin-left: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -360,7 +376,12 @@ button.confirm-order:hover {
     font-size: 0.80rem;
 }
 
+.order-total-container {
+    vertical-align: center;
+}
+
 button.new-order {
+    width: 100%;
     padding: 1rem 0;
     background-color: var(--red);
     font-size: 1rem;
@@ -369,10 +390,18 @@ button.new-order {
     border-radius: 50px;
 }
 
+button.new-order:hover {
+    cursor: pointer;
+}
+
 /* Media query for tablets */
 @media screen and (min-width: 600px) {
     .menu-container {
         width: 60%;
+    }
+
+    .order-confirmed-container {
+        border-radius: 10px;
     }
 }
 
