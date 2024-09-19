@@ -1,6 +1,11 @@
 const gridWrapperEl = document.querySelector('.grid-wrapper');
-const addToCartBtn = document.querySelector('.add-to-cart');
 const productImg = document.querySelector('.product-card img');
+
+
+const decrementBtn = document.querySelector('.decrement');
+const incrementBtn = document.querySelector('.increment');
+const itemQuantityDisplay = document.querySelector('.item-quantity');
+let itemQuantity;
 
 const loadProducts = async () => {
     try {
@@ -15,32 +20,51 @@ const loadProducts = async () => {
 const createProductCards = (data) => {
     try {
         const { image, name, category, price } = data;
-        let imgSrc;
-        if (window.innerWidth < 600) {
-            imgSrc = image.mobile;
-        } else if (window.innerWidth >= 1000) {
-            imgSrc = image.desktop;
-        } else {
-            imgSrc = image.tablet;
-        }
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
         productCard.innerHTML = `
-        <div class="product-card">
+        
         <div class="product-image-container">
-          <img src="${imgSrc}" alt="product image">
+            <picture>
+              <source media="(min-width: 1000px)" srcset="${image.desktop}">
+              <source media="(min-width: 600px)" srcset="${image.tablet}">
+              <img src="${image.mobile}" alt="Product image">
+            </picture>
           <button class="add-to-cart">
             <img src="assets/images/icon-add-to-cart.svg" alt="add to cart">
-            Add to Cart</button>
+            Add to Cart
+            </button>
+            <div class="adjust-quantity">
+              <button class="decrement">
+                <img src="assets/images/icon-decrement-quantity.svg" alt="decrement quantity">
+              </button>
+              <span class="item-quantity">0</span>
+              <button class="increment">
+                <img src="assets/images/icon-increment-quantity.svg" alt="increment quantity">
+              </button>
+            </div>
         </div>
         <div class="product-info">
           <p class="category">${category}</p>
           <h2 class="product-name">${name}</h2>
           <p class="price">$${price.toFixed(2)}</p>
         </div>
-      </div>
         `
         gridWrapperEl.append(productCard);
+
+        const addToCartBtns = productCard.querySelectorAll('.add-to-cart');
+        const adjustQuantityDivs = productCard.querySelectorAll('.adjust-quantity')
+
+
+        addToCartBtns.forEach(addBtn => {
+            addBtn.addEventListener('click', () => {
+                addBtn.style.display = 'none';
+
+                adjustQuantityDivs.forEach(adjustDiv => {
+                    adjustDiv.style.display = 'flex';
+                })
+            });
+        })
 
     } catch (err) {
         console.log(err);
@@ -54,18 +78,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-window.addEventListener('resize', () => {
-    let imgSrc;
-    if (window.innerWidth < 600) {
-        imgSrc = image.mobile;
-    } else if (window.innerWidth >= 1000) {
-        imgSrc = image.desktop;
-    } else {
-        imgSrc = image.tablet;
-    }
-})
+// addToCartBtnHard.addEventListener('click', () => {
+//     addToCartBtn.style.display = 'none';
+//     adjustQuantityBtn.style.display = 'flex';
+//     productImg.classList.add('selected-border');
+//     itemQuantity = 1;
+//     itemQuantityDisplay.innerText = itemQuantity;
+// });
 
-// addToCartBtn.addEventListener('click', () => {
-//     addToCartBtn.style.backgroundColor = 'red';
-//     addToCartBtn.style.color = '#fff';
+// incrementBtn.addEventListener('click', () => {
+//     itemQuantity += 1;
+//     itemQuantityDisplay.innerText = itemQuantity;
+// })
+
+// decrementBtn.addEventListener('click', () => {
+//     if (itemQuantity > + 1) {
+//         itemQuantity -= 1;
+//         itemQuantityDisplay.innerText = itemQuantity;
+//     } else {
+//         addToCartBtn.style.display = 'flex';
+//         adjustQuantityBtn.style.display = 'none';
+//         productImg.classList.remove('selected-border');
+//         itemQuantity = 0;
+//         itemQuantityDisplay.innerText = itemQuantity;
+//     }
 // })
