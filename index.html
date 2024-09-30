@@ -14,8 +14,9 @@
     <div class="menu-container">
       <h1>Desserts</h1>
       <div class="grid-wrapper">
-
         <!-- Products are dynamically generated with app.js -->
+
+        <!-- Hard-coded example for debugging (uncomment if needed) -->
         <!-- <div class="product-card">
           <div class="product-image-container">
             <picture>
@@ -23,6 +24,7 @@
               <source media="(min-width: 600px)" srcset="assets/images/image-waffle-tablet.jpg">
               <img src="assets/images/image-waffle-mobile.jpg" alt="Red Velvet Cake">
             </picture>
+
             <button class="add-to-cart">
               <img src="assets/images/icon-add-to-cart.svg" alt="add to cart">
               Add to Cart
@@ -37,6 +39,7 @@
                 <img src="assets/images/icon-increment-quantity.svg" alt="increment quantity">
               </button>
             </div>
+
           </div>
           <div class="product-info">
             <p class="category">Testing</p>
@@ -49,15 +52,18 @@
     </div>
     <!-- Empty shopping cart -->
     <div class="shopping-cart-container">
-      <p class="your-cart">Your Cart <span>(0)</span></p>
+      <p class="your-cart">Your Cart (0)</p>
       <div class="empty-cart-wrapper">
         <img src="assets/images/illustration-empty-cart.svg" alt="cake image">
         <p class="">Your added items will appear here</p>
       </div>
 
-      <!-- Items in shopoing cart -->
+      <!-- Items in shopping cart -->
       <div class="incart-wrapper">
-        <div class="selected-item">
+        <!-- Products are dynamically generated with app.js -->
+
+        <!-- Hard-coded example for debugging (uncomment if needed) -->
+        <!-- <div class="selected-item">
           <p class="selected-item-name">Waffle with Berries</p>
           <span class="selected-item-quantity">2x</span>
           <span class="selected-item-price"><span>@</span> $6.50</span>
@@ -65,44 +71,23 @@
           <button class="remove-items">
             <img src="assets/images/icon-remove-item.svg" alt="remove">
           </button>
-        </div>
+        </div> -->
+      </div>
 
-        <div class="selected-item">
-          <p class="selected-item-name">Waffle with Berries</p>
-          <span class="selected-item-quantity">2x</span>
-          <span class="selected-item-price"><span>@</span> $6.50</span>
-          <span class="selected-item-total">$13.00</span>
-          <button class="remove-items">
-            <img src="assets/images/icon-remove-item.svg" alt="remove">
-          </button>
+      <div class="order-total-container">
+        <div class="order-total">
+          <p>Order Total</p>
+          <p>$0</p>
         </div>
-
-        <div class="selected-item">
-          <p class="selected-item-name">Waffle with Berries</p>
-          <span class="selected-item-quantity">2x</span>
-          <span class="selected-item-price"><span>@</span> $6.50</span>
-          <span class="selected-item-total">$13.00</span>
-          <button class="remove-items">
-            <img src="assets/images/icon-remove-item.svg" alt="remove">
-          </button>
+        <div class="carbon-neutral">
+          <img src="assets/images/icon-carbon-neutral.svg" alt="tree icon">
+          This is a&nbsp;<b>carbon-neutral</b>&nbsp;delivery
         </div>
-
-        <div class="order-total-container">
-          <div class="order-total">
-            <p>Order Total</p>
-            <p>$78.00</p>
-          </div>
-          <div class="carbon-neutral">
-            <img src="assets/images/icon-carbon-neutral.svg" alt="tree icon">
-            This is a&nbsp;<b>carbon-neutral</b>&nbsp;delivery
-          </div>
-          <button class="confirm-order">Confirm Order</button>
-        </div>
+        <button class="confirm-order">Confirm Order</button>
       </div>
     </div>
-
-
   </div>
+
   <!-- Order Confirmed -->
   <div class="confirmed-overlay">
     <div class="order-confirmed-container">
