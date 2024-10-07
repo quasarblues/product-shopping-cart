@@ -1,13 +1,58 @@
-const inCartWrapper = document.querySelector('.incart-wrapper');
-const emptyCartWrapper = document.querySelector('.empty-cart-wrapper');
+const inCartWrapperEl = document.querySelector('.incart-wrapper');
+const emptyCartWrapperEl = document.querySelector('.empty-cart-wrapper');
 
-const orderTotalContainer = document.querySelector('.order-total-container');
-const yourCartEl = document.querySelector('.your-cart');
-const orderTotalEl = document.querySelector('.order-total');
+const orderTotalContainerEl = document.querySelector('.order-total-container');
+
 
 let availableProducts = [] // push all products into an array
-let cart = [] // array for items in cart
 
+
+// Define a cart class
+class Cart {
+  constructor() {
+    this.items = [];
+  }
+
+  // Add product to cart
+  addProduct(cartItem) {
+    const existingProduct = this.items.find(item => item.name === cartItem.name);
+
+    if (!existingProduct) {
+      this.items.push(cartItem)
+    } else {
+      // Increase quantity by 1 if product is already in cart
+      existingProduct.quantity += 1;
+    }
+  }
+  // Remove product from cart
+  removeProduct(cartItem) {
+    const existingProduct = this.items.find(item => item.name === cartItem.name);
+    if (existingProduct) {
+      this.items = this.items.filter(item => item.name !== cartItem.name)
+    } else {
+      console.log('Item not in cart')
+    }
+  }
+  // Increase quantity
+  increment(cartItem) {
+    if (cartItem) {
+      cartItem.quantity += 1;
+    } else {
+      console.log('This item is not in the cart');
+    }
+  }
+  // Decrease quantity
+  decrement(cartItem) {
+    if (cartItem) {
+      cartItem.quantity -= 1;
+    } else {
+      console.log('This istem is not in the cart')
+    }
+  }
+}
+
+// Initialize the Cart
+const myCart = new Cart();
 
 const loadProducts = async () => {
   try {
@@ -44,90 +89,185 @@ const createProductCards = (data) => {
   return productCard;
 }
 
-const setupEventListeners = (productCard, product) => {
-  const addToCartBtn = productCard.querySelector('.add-to-cart');
-  const productImg = productCard.querySelector('.product-card img');
-  const itemQuantityDisplay = productCard.querySelector('.item-quantity');
-  const productImageContainerEl = productCard.querySelector('.product-image-container');
-  const decrementBtn = productCard.querySelector('.decrement');
-  const incrementBtn = productCard.querySelector('.increment');
+// Set up event listeners
+function setupEventListeners(product, productCard) {
+  const addBtn = productCard.querySelector('.add-to-cart');
+  const productCardImg = productCard.querySelector('.product-image-container img');
+  const productImgContainerEl = productCard.querySelector('.product-image-container');
 
-
-  addToCartBtn.addEventListener('click', () => {
-    handleAddToCart(product.name);
-    updateUI(productImg, productImageContainerEl, product);
-  });
-};
-
-function handleAddToCart(name) {
-  // find product from availableProducts.
-  const foundProduct = availableProducts.find(product => {
-    return product.name === name;
+  addBtn.addEventListener('click', () => {
+    addtoCart(product.name, productCardImg, productImgContainerEl);
   })
-  // Push to cart array and add quantity key.
-  cart.push({
-    ...foundProduct,
-    quantity: 1
-  });
-
-  const cartItem = cart.find(item => item.name === foundProduct.name);
-
-  renderCart(cartItem);
-  updateCart();
 }
 
-function updateUI(productImg, productImageContainerEl, product) {
-  productImg.classList.add('selected-border');
-  const addedProduct = cart.find(item => {
-    return item.name === product.name;
+function setupQuantityEventListeners(adjustQuantityEl, cartItem, productCardImg, productImgContainerEl) {
+  const incrementBtn = adjustQuantityEl.querySelector('.increment');
+  const decrementBtn = adjustQuantityEl.querySelector('.decrement');
+  const productCardQty = adjustQuantityEl.querySelector('.item-quantity');
+
+  incrementBtn.addEventListener('click', () => {
+    handleIncrement(cartItem, productCardQty);
   })
+
+  decrementBtn.addEventListener('click', () => {
+    handleDecrement(cartItem, productCardQty, productCardImg, productImgContainerEl);
+  })
+}
+
+function addtoCart(name, productCardImg, productImgContainerEl) {
+  const foundProduct = availableProducts.find(product => product.name === name);
+  const cartItem = {
+    ...foundProduct,
+    quantity: 1,
+  }
+
+  myCart.addProduct(cartItem);
+  setCardUI(productCardImg, cartItem, productImgContainerEl);
+  renderCart(cartItem);
+  updateCartTotals();
+}
+
+function handleIncrement(cartItem, productCardQty) {
+  //increae quantity of item in myCart
+  myCart.increment(cartItem);
+
+  // update UI
+  productCardQty.innerText = cartItem.quantity;
+
+  updateCartTotals();
+
+  //update cart UI with information in myCart object
+  const selectedItem = document.querySelector('.selected-item');
+
+  if (selectedItem) {
+    updateCart(cartItem);
+  }
+}
+
+function handleDecrement(cartItem, productCardQty, productCardImg, productImgContainerEl) {
+  if (cartItem.quantity > 1) {
+    //decrese quantity of item in myCart
+    myCart.decrement(cartItem);
+
+    // update UI
+    productCardQty.innerText = cartItem.quantity;
+    updateCartTotals();
+
+    //update cart UI with information in myCart object
+    const selectedItem = document.querySelector('.selected-item');
+    if (selectedItem) {
+      updateCart(cartItem);
+    }
+  } else {
+    myCart.removeProduct(cartItem);
+
+    // Remove UI updates from product card
+    const adjustQuantityEl = productImgContainerEl.querySelector('.adjust-quantity');
+    removeCardUI(productCardImg, adjustQuantityEl);
+
+    removeFromCartUI(cartItem);
+
+    updateCartTotals();
+  }
+}
+
+function setCardUI(productCardImg, cartItem, productImgContainerEl) {
+  productCardImg.classList.add('selected-border');
   const adjustQuantityEl = document.createElement('div');
   adjustQuantityEl.classList.add('adjust-quantity');
   adjustQuantityEl.innerHTML = `
     <button class="decrement">
-    <img src="assets/images/icon-decrement-quantity.svg" alt="decrement quantity">
+      <img src="assets/images/icon-decrement-quantity.svg" alt="decrement quantity">
     </button>
-    <span class="item-quantity">${addedProduct.quantity}</span>
+      <span class="item-quantity">${cartItem.quantity}</span>
     <button class="increment">
-    <img src="assets/images/icon-increment-quantity.svg" alt="increment quantity">
+      <img src="assets/images/icon-increment-quantity.svg" alt="increment quantity">
     </button>
   `
-  productImageContainerEl.append(adjustQuantityEl);
+  productImgContainerEl.append(adjustQuantityEl);
+
+  setupQuantityEventListeners(adjustQuantityEl, cartItem, productCardImg, productImgContainerEl);
+}
+
+function removeCardUI(productCardImg, adjustQuantityEl) {
+  productCardImg.classList.remove('selected-border');
+  adjustQuantityEl.remove();
+}
+
+function removeFromCartUI(cartItem) {
+  const selectedItems = document.querySelectorAll('.selected-item');
+  const matchingItem = Array.from(selectedItems).find(item => {
+    const itemName = item.querySelector('.selected-item-name').dataset.itemName;
+    return itemName === cartItem.name;
+  });
+
+  if (matchingItem) {
+    matchingItem.remove(); // Remove the item from the cart UI
+    if (myCart.items.length === 0) {
+      emptyCartWrapperEl.style.display = 'block';
+      inCartWrapperEl.style.display = 'none';
+      orderTotalContainerEl.style.display = 'none';
+    }
+  }
 }
 
 function renderCart(cartItem) {
-  // Handle displays
-  emptyCartWrapper.style.display = 'none';
-  inCartWrapper.style.display = 'grid';
-  orderTotalContainer.style.display = 'flex';
+  emptyCartWrapperEl.style.display = 'none';
+  inCartWrapperEl.style.display = 'grid';
+  orderTotalContainerEl.style.display = 'flex';
 
-  // Display item in the shopping cart
-  selectedItemEl = document.createElement('div');
-  selectedItemEl.classList.add('selected-item');
-  selectedItemEl.innerHTML = `
-  <p class="selected-item-name">${cartItem.name}</p>
-    <span class="selected-item-quantity">${cartItem.quantity}x</span>
-     <span class="selected-item-price"><span>@</span> $${cartItem.price.toFixed(2)}</span>
-    <span class="selected-item-total">$${(cartItem.quantity * cartItem.price).toFixed(2)}</span>
-    <button class="remove-items">
-      <img src="assets/images/icon-remove-item.svg" alt="remove">
-    </button>
+  const selectedItem = document.createElement('div');
+  selectedItem.classList.add('selected-item');
+  selectedItem.innerHTML = `
+    <p class="selected-item-name" data-item-name="${cartItem.name}">${cartItem.name}</p>
+      <span class="selected-item-quantity">${cartItem.quantity}x</span>
+      <span class="selected-item-price"><span>@</span> $${cartItem.price.toFixed(2)}</span>
+      <span class="selected-item-total">$${(cartItem.price * cartItem.quantity).toFixed(2)}</span>
+      <button class="remove-items">
+        <img src="assets/images/icon-remove-item.svg" alt="remove">
+      </button>
   `
-  inCartWrapper.append(selectedItemEl);
+  inCartWrapperEl.append(selectedItem);
 }
 
-function updateCart() {
-  let totalItems = 0;
-  let totalPrice = 0;
+function updateCart(cartItem) {
+  const selectedItems = document.querySelectorAll('.selected-item'); // NodeList of divs
 
-  cart.forEach(item => {
-    totalItems += item.quantity;
-    totalPrice += item.quantity * item.price;
-  })
-  yourCartEl.innerText = `Your Cart (${totalItems})`;
+  // Convert NodeList to an array
+  const matchingItem = Array.from(selectedItems).find(item => {
+    const itemName = item.querySelector('.selected-item-name').dataset.itemName;
+    return itemName === cartItem.name;
+  });
+
+  if (matchingItem) {
+    matchingItem.innerHTML = `
+    <p class="selected-item-name" data-item-name="${cartItem.name}">${cartItem.name}</p>
+      <span class="selected-item-quantity">${cartItem.quantity}x</span>
+      <span class="selected-item-price"><span>@</span> $${cartItem.price.toFixed(2)}</span>
+      <span class="selected-item-total">$${(cartItem.price * cartItem.quantity).toFixed(2)}</span>
+      <button class="remove-items">
+        <img src="assets/images/icon-remove-item.svg" alt="remove">
+      </button>
+  `
+  } else {
+    console.log('No match found.');
+  }
+}
+
+function updateCartTotals() {
+  const yourCartEl = document.querySelector('.your-cart');
+  const orderTotalEl = document.querySelector('.order-total');
+
+  let totalQTY = 0;
+  let totalPrice = 0;
+  myCart.items.forEach(item => {
+    totalQTY += item.quantity;
+    totalPrice += (item.quantity * item.price);
+  });
+  yourCartEl.innerText = `Your Cart (${totalQTY})`;
   orderTotalEl.innerHTML = `
-    <p>Order Total</p>
-    <p>$${totalPrice.toFixed(2)}</p>
+      <p>Order Total</p>
+      <p>$${totalPrice.toFixed(2)}</p>
   `
 }
 
@@ -138,13 +278,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     products.forEach(product => {
       const productCard = createProductCards(product);
       gridWrapperEl.append(productCard); // Append the created card to the grid
-      setupEventListeners(productCard, product);
       availableProducts.push(product); // Push all products into an array
-    });
+      setupEventListeners(product, productCard);
+    })
   }
-});
+})
 
-// click 'add-to-cart' I need the product name
-// availableProducts[name] pushed to cart[]
-// when item is pushed to cart, new key value. item quantity = 1
+
 
