@@ -1,10 +1,12 @@
+// Variables for cart UI
 const inCartWrapperEl = document.querySelector('.incart-wrapper');
 const emptyCartWrapperEl = document.querySelector('.empty-cart-wrapper');
 
+// Variable for order total UI
 const orderTotalContainerEl = document.querySelector('.order-total-container');
 
-
-let availableProducts = [] // push all products into an array
+// Initialize array of available products
+let availableProducts = [];
 
 
 // Define a cart class
@@ -54,6 +56,7 @@ class Cart {
 // Initialize the Cart
 const myCart = new Cart();
 
+// Fetch product data from data.json
 const loadProducts = async () => {
   try {
     const res = await fetch('data.json');
@@ -64,6 +67,7 @@ const loadProducts = async () => {
   }
 }
 
+// Create product cards
 const createProductCards = (data) => {
   const { image, name, category, price } = data;
   const productCard = document.createElement('div');
@@ -89,17 +93,18 @@ const createProductCards = (data) => {
   return productCard;
 }
 
-// Set up event listeners
+// Set up event listener for add to cart button
 function setupEventListeners(product, productCard) {
   const addBtn = productCard.querySelector('.add-to-cart');
   const productCardImg = productCard.querySelector('.product-image-container img');
   const productImgContainerEl = productCard.querySelector('.product-image-container');
 
   addBtn.addEventListener('click', () => {
-    addtoCart(product.name, productCardImg, productImgContainerEl);
+    addToCart(product.name, productCardImg, productImgContainerEl);
   })
 }
 
+// Set up event listeners for buttons that increae and descrease quantity
 function setupQuantityEventListeners(adjustQuantityEl, cartItem, productCardImg, productImgContainerEl) {
   const incrementBtn = adjustQuantityEl.querySelector('.increment');
   const decrementBtn = adjustQuantityEl.querySelector('.decrement');
@@ -114,7 +119,9 @@ function setupQuantityEventListeners(adjustQuantityEl, cartItem, productCardImg,
   })
 }
 
-function addtoCart(name, productCardImg, productImgContainerEl) {
+////////// Functions for adding items to cart and rendering cart UI ///////////
+
+function addToCart(name, productCardImg, productImgContainerEl) {
   const foundProduct = availableProducts.find(product => product.name === name);
   const cartItem = {
     ...foundProduct,
@@ -123,52 +130,8 @@ function addtoCart(name, productCardImg, productImgContainerEl) {
 
   myCart.addProduct(cartItem);
   setCardUI(productCardImg, cartItem, productImgContainerEl);
-  renderCart(cartItem);
+  renderCart(cartItem, productCardImg);
   updateCartTotals();
-}
-
-function handleIncrement(cartItem, productCardQty) {
-  //increae quantity of item in myCart
-  myCart.increment(cartItem);
-
-  // update UI
-  productCardQty.innerText = cartItem.quantity;
-
-  updateCartTotals();
-
-  //update cart UI with information in myCart object
-  const selectedItem = document.querySelector('.selected-item');
-
-  if (selectedItem) {
-    updateCart(cartItem);
-  }
-}
-
-function handleDecrement(cartItem, productCardQty, productCardImg, productImgContainerEl) {
-  if (cartItem.quantity > 1) {
-    //decrese quantity of item in myCart
-    myCart.decrement(cartItem);
-
-    // update UI
-    productCardQty.innerText = cartItem.quantity;
-    updateCartTotals();
-
-    //update cart UI with information in myCart object
-    const selectedItem = document.querySelector('.selected-item');
-    if (selectedItem) {
-      updateCart(cartItem);
-    }
-  } else {
-    myCart.removeProduct(cartItem);
-
-    // Remove UI updates from product card
-    const adjustQuantityEl = productImgContainerEl.querySelector('.adjust-quantity');
-    removeCardUI(productCardImg, adjustQuantityEl);
-
-    removeFromCartUI(cartItem);
-
-    updateCartTotals();
-  }
 }
 
 function setCardUI(productCardImg, cartItem, productImgContainerEl) {
@@ -189,33 +152,13 @@ function setCardUI(productCardImg, cartItem, productImgContainerEl) {
   setupQuantityEventListeners(adjustQuantityEl, cartItem, productCardImg, productImgContainerEl);
 }
 
-function removeCardUI(productCardImg, adjustQuantityEl) {
-  productCardImg.classList.remove('selected-border');
-  adjustQuantityEl.remove();
-}
-
-function removeFromCartUI(cartItem) {
-  const selectedItems = document.querySelectorAll('.selected-item');
-  const matchingItem = Array.from(selectedItems).find(item => {
-    const itemName = item.querySelector('.selected-item-name').dataset.itemName;
-    return itemName === cartItem.name;
-  });
-
-  if (matchingItem) {
-    matchingItem.remove(); // Remove the item from the cart UI
-    if (myCart.items.length === 0) {
-      emptyCartWrapperEl.style.display = 'block';
-      inCartWrapperEl.style.display = 'none';
-      orderTotalContainerEl.style.display = 'none';
-    }
-  }
-}
-
-function renderCart(cartItem) {
+function renderCart(cartItem, productCardImg) {
+  // Set cart display
   emptyCartWrapperEl.style.display = 'none';
   inCartWrapperEl.style.display = 'grid';
   orderTotalContainerEl.style.display = 'flex';
 
+  // Create element and append to DOM
   const selectedItem = document.createElement('div');
   selectedItem.classList.add('selected-item');
   selectedItem.innerHTML = `
@@ -228,6 +171,16 @@ function renderCart(cartItem) {
       </button>
   `
   inCartWrapperEl.append(selectedItem);
+
+  // Add event listener to the remove btn
+  const removeItemBtn = selectedItem.querySelector('.remove-items');
+  const adjustQuantityEl = document.querySelector('.adjust-quantity');
+  removeItemBtn.addEventListener('click', () => {
+    myCart.removeProduct(cartItem);
+    removeCardUI(productCardImg, adjustQuantityEl);
+    removeFromCartUI(cartItem);
+    updateCartTotals();
+  })
 }
 
 function updateCart(cartItem) {
@@ -268,8 +221,78 @@ function updateCartTotals() {
   orderTotalEl.innerHTML = `
       <p>Order Total</p>
       <p>$${totalPrice.toFixed(2)}</p>
-  `
+  `;
 }
+
+////////// Functions for removing items from cart ///////////
+
+function removeCardUI(productCardImg, adjustQuantityEl) {
+  productCardImg.classList.remove('selected-border');
+  adjustQuantityEl.remove();
+}
+
+function removeFromCartUI(cartItem) {
+  const selectedItems = document.querySelectorAll('.selected-item');
+  const matchingItem = Array.from(selectedItems).find(item => {
+    const itemName = item.querySelector('.selected-item-name').dataset.itemName;
+    return itemName === cartItem.name;
+  });
+
+  if (matchingItem) {
+    matchingItem.remove(); // Remove the item from the cart UI
+    if (myCart.items.length === 0) {
+      emptyCartWrapperEl.style.display = 'block';
+      inCartWrapperEl.style.display = 'none';
+      orderTotalContainerEl.style.display = 'none';
+    }
+  }
+}
+
+////////// Functions for handling cart quantities ///////////
+
+function handleIncrement(cartItem, productCardQty) {
+  //increae quantity of item in myCart
+  myCart.increment(cartItem);
+
+  // update UI
+  productCardQty.innerText = cartItem.quantity;
+
+  updateCartTotals();
+
+  //update cart UI with information in myCart object
+  const selectedItem = document.querySelector('.selected-item');
+
+  if (selectedItem) {
+    updateCart(cartItem);
+  }
+}
+
+function handleDecrement(cartItem, productCardQty, productCardImg, productImgContainerEl) {
+  if (cartItem.quantity > 1) {
+    //decrese quantity of item in myCart
+    myCart.decrement(cartItem);
+
+    // update UI
+    productCardQty.innerText = cartItem.quantity;
+    updateCartTotals();
+
+    //update cart UI with information in myCart object
+    const selectedItem = document.querySelector('.selected-item');
+    if (selectedItem) {
+      updateCart(cartItem);
+    }
+  } else {
+    myCart.removeProduct(cartItem);
+
+    // Remove UI updates from product card
+    const adjustQuantityEl = productImgContainerEl.querySelector('.adjust-quantity');
+    removeCardUI(productCardImg, adjustQuantityEl);
+    removeFromCartUI(cartItem);
+    updateCartTotals();
+  }
+}
+
+////////// Append product cards on page load ///////////
 
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await loadProducts();
@@ -277,12 +300,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (products) {
     products.forEach(product => {
       const productCard = createProductCards(product);
-      gridWrapperEl.append(productCard); // Append the created card to the grid
-      availableProducts.push(product); // Push all products into an array
+      // Append the created card to the grid
+      gridWrapperEl.append(productCard);
+      // Push all products into an array
+      availableProducts.push(product);
+      // // product contains the product data, while productCard is the UI component representing that product
       setupEventListeners(product, productCard);
     })
   }
 })
 
+////////// Handle order confirmed msg ///////////
 
 
