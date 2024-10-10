@@ -304,20 +304,19 @@ button.confirm-order:hover {
     z-index: 3;
 }
 
-.show {
-    display: flex;
-}
 
 .order-confirmed-container {
     display: grid;
-    position: fixed;
+    margin: 1rem 0;
     width: 100%;
+    max-height: 90%;
     max-width: 400px;
     gap: 1rem;
     padding: 1rem;
     background-color: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    overflow-y: auto;
 }
 
 .confirmed-msg {

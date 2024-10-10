@@ -321,6 +321,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 confirmOrderBtn.addEventListener('click', () => {
   confirmedOverlayEl.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // Disable body scroll
   myCart.items.forEach(item => {
     const confiremdItem = showConfirmedItems(item);
     confirmedItemsWrapper.append(confiremdItem);
