@@ -242,6 +242,7 @@ button.remove-items:hover {
     justify-content: center;
     gap: 1.5rem;
     padding: 1.5rem 0;
+    vertical-align: center;
 }
 
 .order-total {
@@ -300,6 +301,7 @@ button.confirm-order:hover {
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.6);
+    z-index: 3;
 }
 
 .show {
@@ -381,8 +383,25 @@ button.confirm-order:hover {
     font-size: 0.80rem;
 }
 
-.order-total-container {
+.confirmed-total-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
     vertical-align: center;
+}
+
+.confirmed-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.confirmed-total p:nth-of-type(2) {
+    color: var(--rose-900);
+    font-size: 1.3rem;
+    font-weight: var(--fw-700);
 }
 
 button.new-order {

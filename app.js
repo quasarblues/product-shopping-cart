@@ -1,9 +1,14 @@
 // Variables for cart UI
 const inCartWrapperEl = document.querySelector('.incart-wrapper');
 const emptyCartWrapperEl = document.querySelector('.empty-cart-wrapper');
+const confirmOrderBtn = document.querySelector('.confirm-order');
+const orderTotalContainerEl = document.querySelector('.order-total-container');
 
 // Variable for order total UI
-const orderTotalContainerEl = document.querySelector('.order-total-container');
+const confirmedOverlayEl = document.querySelector('.confirmed-overlay');
+const confirmedItemsWrapper = document.querySelector('.confirmed-items-wrapper');
+const confirmedTotalEl = document.querySelector('.confirmed-total');
+const newOrderBtn = document.querySelector('.new-order');
 
 // Initialize array of available products
 let availableProducts = [];
@@ -222,6 +227,8 @@ function updateCartTotals() {
       <p>Order Total</p>
       <p>$${totalPrice.toFixed(2)}</p>
   `;
+
+  return totalPrice;
 }
 
 ////////// Functions for removing items from cart ///////////
@@ -310,6 +317,47 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 })
 
-////////// Handle order confirmed msg ///////////
+////////// Handle order confirmed card ///////////
 
+confirmOrderBtn.addEventListener('click', () => {
+  confirmedOverlayEl.style.display = 'flex';
+  myCart.items.forEach(item => {
+    const confiremdItem = showConfirmedItems(item);
+    confirmedItemsWrapper.append(confiremdItem);
+  })
+
+  showConfirmedPrice();
+})
+
+function showConfirmedItems(item) {
+  const confirmedItem = document.createElement('div');
+  confirmedItem.classList.add('confirmed-item');
+  confirmedItem.innerHTML = `
+    <img src="${item.image.thumbnail}" alt="">
+    <div class="confirmed-name-price-wrapper">
+        <p class="confirmed-item-name">${item.name}</p>
+        <p>
+          <span class="confirmed-item-quantity">${item.quantity}x</span>
+          <span class="confirmed-item-price"><span>@</span> $${item.price.toFixed(2)}</span>
+        </p>
+    </div>
+    <div class="confirmed-total-price">
+      <p>$${(item.quantity + item.price).toFixed(2)}</p>
+    </div>
+  `
+  return confirmedItem;
+}
+
+function showConfirmedPrice() {
+  totalPrice = updateCartTotals();
+  confirmedTotalEl.innerHTML = `
+    <p>Order Total</p>
+    <p>$${totalPrice.toFixed(2)}</p>
+`
+}
+
+// Refresh when new order btn is clicked
+newOrderBtn.addEventListener('click', () => {
+  location.reload();
+})
 
