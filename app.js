@@ -85,7 +85,7 @@ const createProductCards = (data) => {
         <img src="${image.mobile}" alt="Product image">
       </picture>
       <button class="add-to-cart">
-      <img src="assets/images/icon-add-to-cart.svg" alt="add to cart">
+      <img src="assets/images/icon-add-to-cart.svg" alt="">
       Add to Cart
       </button>    
     </div>
