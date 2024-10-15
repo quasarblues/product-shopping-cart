@@ -135,7 +135,7 @@ function addToCart(name, productCardImg, productImgContainerEl) {
 
   myCart.addProduct(cartItem);
   setCardUI(productCardImg, cartItem, productImgContainerEl);
-  renderCart(cartItem, productCardImg);
+  renderCart(cartItem, productCardImg, productImgContainerEl);
   updateCartTotals();
 }
 
@@ -157,7 +157,7 @@ function setCardUI(productCardImg, cartItem, productImgContainerEl) {
   setupQuantityEventListeners(adjustQuantityEl, cartItem, productCardImg, productImgContainerEl);
 }
 
-function renderCart(cartItem, productCardImg) {
+function renderCart(cartItem, productCardImg, productImgContainerEl) {
   // Set cart display
   emptyCartWrapperEl.style.display = 'none';
   inCartWrapperEl.style.display = 'grid';
@@ -167,10 +167,12 @@ function renderCart(cartItem, productCardImg) {
   const selectedItem = document.createElement('div');
   selectedItem.classList.add('selected-item');
   selectedItem.innerHTML = `
+  <div class="cart-info-wrapper">
     <p class="selected-item-name" data-item-name="${cartItem.name}">${cartItem.name}</p>
       <span class="selected-item-quantity">${cartItem.quantity}x</span>
       <span class="selected-item-price"><span>@</span> $${cartItem.price.toFixed(2)}</span>
       <span class="selected-item-total">$${(cartItem.price * cartItem.quantity).toFixed(2)}</span>
+  </div>
       <button class="remove-items">
         <img src="assets/images/icon-remove-item.svg" alt="remove">
       </button>
@@ -178,18 +180,23 @@ function renderCart(cartItem, productCardImg) {
   inCartWrapperEl.append(selectedItem);
 
   // Add event listener to the remove btn
-  const removeItemBtn = selectedItem.querySelector('.remove-items');
-  const adjustQuantityEl = document.querySelector('.adjust-quantity');
-  removeItemBtn.addEventListener('click', () => {
-    myCart.removeProduct(cartItem);
-    removeCardUI(productCardImg, adjustQuantityEl);
-    removeFromCartUI(cartItem);
-    updateCartTotals();
+  const removeItemBtns = selectedItem.querySelectorAll('.remove-items');
+  const adjustQuantityEl = productImgContainerEl.querySelector('.adjust-quantity');
+
+  removeItemBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      myCart.removeProduct(cartItem);
+      removeCardUI(productCardImg, adjustQuantityEl);
+      removeFromCartUI(cartItem);
+      updateCartTotals();
+    })
   })
+
 }
 
 function updateCart(cartItem) {
-  const selectedItems = document.querySelectorAll('.selected-item'); // NodeList of divs
+  // Select the .cart-info-wrapper so we don't override the remove btn
+  const selectedItems = document.querySelectorAll('.cart-info-wrapper');
 
   // Convert NodeList to an array
   const matchingItem = Array.from(selectedItems).find(item => {
@@ -203,9 +210,6 @@ function updateCart(cartItem) {
       <span class="selected-item-quantity">${cartItem.quantity}x</span>
       <span class="selected-item-price"><span>@</span> $${cartItem.price.toFixed(2)}</span>
       <span class="selected-item-total">$${(cartItem.price * cartItem.quantity).toFixed(2)}</span>
-      <button class="remove-items">
-        <img src="assets/images/icon-remove-item.svg" alt="remove">
-      </button>
   `
   } else {
     console.log('No match found.');
@@ -298,6 +302,7 @@ function handleDecrement(cartItem, productCardQty, productCardImg, productImgCon
     updateCartTotals();
   }
 }
+
 
 ////////// Append product cards on page load ///////////
 
